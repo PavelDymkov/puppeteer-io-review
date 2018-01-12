@@ -10,8 +10,6 @@ beforeAll(async () => {
 
 beforeEach(async () => {
     page = await browser.newPage();
-
-    await page.goto("http://localhost:8080");
 });
 
 afterEach(async () => {
@@ -22,7 +20,9 @@ afterAll(async () => {
     await browser.close();
 });
 
-test(`check onFocusIn and onFocusOut callbacks`, done => {
+test(`check onFocusIn and onFocusOut callbacks`, async done => {
+    await page.goto("http://localhost:8080");
+
     io({
         page, done,
         async input() {
@@ -36,10 +36,12 @@ test(`check onFocusIn and onFocusOut callbacks`, done => {
     });
 });
 
-test(`check onChange callback`, done => {
+test(`check onChange callback`, async done => {
     io({
         page, done,
-        async input() {
+        async input({ load }) {
+            await load("http://localhost:8080");
+
             let select = await page.$("select");
 
             await select.focus();
@@ -48,9 +50,10 @@ test(`check onChange callback`, done => {
             await select.press("Enter");
         },
         async output({ dataFromMessage }) {
+            let [,secondItem] = await dataFromMessage("test-data");
             let selectedId = await dataFromMessage("Select: change");
 
-            expect(selectedId).toBe(2);
+            expect(selectedId).toBe(secondItem.id);
         }
     });
 });

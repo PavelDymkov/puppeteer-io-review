@@ -8,6 +8,8 @@ const selectData = [
     { id: 3, value: "text 3"}
 ];
 
+console.log("test-data", selectData);
+
 export default props => <div>
     <Select items={selectData}
             onFocusIn={() => console.log("Select: focus in")}
