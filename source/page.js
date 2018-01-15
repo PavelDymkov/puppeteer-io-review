@@ -10,7 +10,7 @@ const selectData = [
 
 console.log("test-data", selectData);
 
-export default props => <div>
+export default () => <div>
     <Select items={selectData}
             onFocusIn={() => console.log("Select: focus in")}
             onFocusOut={() => console.log("Select: focus out")}

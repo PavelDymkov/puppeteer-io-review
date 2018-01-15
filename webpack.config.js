@@ -10,7 +10,8 @@ module.exports = {
     },
     devServer: {
         contentBase: join(__dirname, "public"),
-        publicPath: "/assets/"
+        publicPath: "/assets/",
+        port: 8080
     },
     devtool: "source-map",
     module: {

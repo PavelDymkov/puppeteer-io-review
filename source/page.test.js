@@ -1,5 +1,5 @@
 const puppeteer = require("puppeteer");
-const io = require("../../puppeteer-io/index.js");
+const io = require("puppeteer-io");
 
 
 let browser, page;
@@ -20,12 +20,11 @@ afterAll(async () => {
     await browser.close();
 });
 
-test(`check onFocusIn and onFocusOut callbacks`, async done => {
-    await page.goto("http://localhost:8080");
-
+test(`check onFocusIn and onFocusOut callbacks`, done => {
     io({
         page, done,
         async input() {
+            await page.goto("http://localhost:8080");
             await page.focus("select");
             await page.focus("input");
         },
@@ -36,11 +35,11 @@ test(`check onFocusIn and onFocusOut callbacks`, async done => {
     });
 });
 
-test(`check onChange callback`, async done => {
-    io({
-        page, done,
-        async input({ load }) {
-            await load("http://localhost:8080");
+test(`check onChange callback`, async () => {
+    await io({
+        page,
+        async input() {
+            await page.goto("http://localhost:8080");
 
             let select = await page.$("select");
 

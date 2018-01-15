@@ -1,0 +1,14 @@
+<button></button>
+<script>
+
+function addEvent(selector, eventType, handler) {
+    let elements = document.querySelectorAll(selector);
+
+    Array.prototype.forEach.call(elements, element => {
+        element.addEventListener(eventType, handler, false);
+    });
+}
+
+addEvent("button", "click", event => console.log("Button.click"));
+
+</script>
